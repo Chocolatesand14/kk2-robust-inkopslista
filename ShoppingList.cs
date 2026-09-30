@@ -86,6 +86,11 @@ class ShoppingList
 
         foreach (string line in lines)
         {
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                continue;
+            }
+            
             string[] parts = line.Split(';');
             items.Add(new Item(parts[1], int.Parse(parts[0])));
         }
