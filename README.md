@@ -97,7 +97,7 @@ if (!int.TryParse(Console.ReadLine(), out int price))
 
 I det här felet skulle jag prova att ta bort en vara som inte fanns i menyn.
 
-Felet fanns i `Program.cs rad 20`.
+Felet fanns i `ShoppingList.cs rad 20`.
 
 
 **Lösning:**
@@ -159,4 +159,25 @@ catch (FileNotFoundException)
     Console.WriteLine("Filen hittades inte. En tom lista används.");
     return;
 }
+```
+
+## Fel 6 - Felaktig totalsumma
+
+Jag har lagt till varor, men den räknar inte med alla varor. Just nu räknar den inte med den som är överst i listan.
+
+
+**Lösning:**
+Jag ändrade startvärdet i `for`-loopen från `1` till `0`. Listan börjar på index `0`, så nu räknas även den första varans pris med i totalsumman.
+
+
+**Före:**
+
+```csharp
+for (int i = 1; i < items.Count; i++)
+```
+
+**Efter:**
+
+```csharp
+for (int i = 0; i < items.Count; i++)
 ```
