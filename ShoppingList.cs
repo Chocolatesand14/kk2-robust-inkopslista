@@ -87,7 +87,18 @@ class ShoppingList
     // Reads the file back into the list.
     public void Load()
     {
-        string text = File.ReadAllText(path);
+        string text;
+
+        try
+        {
+         text = File.ReadAllText(path);
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("Filen hittades inte. En tom lista används.");
+            return;
+        }
+
         string[] lines = text.Split('\n');
 
         foreach (string line in lines)

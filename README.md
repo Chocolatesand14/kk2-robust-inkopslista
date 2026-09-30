@@ -127,3 +127,36 @@ public void RemoveAt(int number)
     items.RemoveAt(number - 1);
 }
 ```
+
+## Fel 5 - items.txt saknas
+
+Jag döpte om `items.txt` till `items-old.txt` och körde programmet igen.
+
+Då fick jag upp ett nytt fel i `Shopplist.cs rad 90`.
+
+
+**Lösning:**
+Jag fick tänka till lite mer här. Vad jag kan använda för att få det att fungera fast en fil var borta. Kommer sedan på att vi hade gått igenom `try-catch` som ska hjälpa till att fånga ett exception i det här fallet blir det `FileNotFoundException`. Om filen inte finns nu visas ett felmeddelande och programmet fortsätter med en tom lista utan att krascha.
+
+
+**Före:**
+
+```csharp
+string text = File.ReadAllText(path);
+```
+
+**Efter:**
+
+```csharp
+string text;
+
+try
+{
+    text = File.ReadAllText(path);
+}
+catch (FileNotFoundException)
+{
+    Console.WriteLine("Filen hittades inte. En tom lista används.");
+    return;
+}
+```
