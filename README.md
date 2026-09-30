@@ -27,7 +27,6 @@ int choice = int.Parse(Console.ReadLine());
     }
 ```
     
-
 ## Fel 2 - Tom rad i filen
 
 Andra felet hittade jag genom att köra programmet.
@@ -91,5 +90,40 @@ if (!int.TryParse(Console.ReadLine(), out int price))
 {
     Console.WriteLine("Felaktig inmatning. Skriv ett nummer.");
     continue;
+}
+```
+
+## Fel 4 - Ta bort en vara som inte finns
+
+I det här felet skulle jag prova att ta bort en vara som inte fanns i menyn.
+
+Felet fanns i `Program.cs rad 20`.
+
+
+**Lösning:**
+Jag lade till en kontroll så att programmet inte försöker ta bort en vara som inte finns. Istället visas ett felmeddelande.
+
+
+**Före:**
+
+```csharp
+public void RemoveAt(int number)
+{
+    items.RemoveAt(number - 1);
+}
+```
+
+**Efter:**
+
+```csharp
+public void RemoveAt(int number)
+{
+    if (number < 1 || number > items.Count)
+    {
+        Console.WriteLine("Det finns ingen vara med det numret.");
+        return;
+    }
+
+    items.RemoveAt(number - 1);
 }
 ```
