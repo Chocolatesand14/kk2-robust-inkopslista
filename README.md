@@ -4,9 +4,10 @@ I programmet fanns det 6 fel som kunde göra att programmet kraschade, gav fel r
 
 ## Fel 1 - Felaktig inmatning av menyval
 
-Första fel som jag hittade var `int.Parse()` när användaren skulle skriva menyval, pris och nummer på en vara. 
+Första fel som jag hittade var `int.Parse()` när användaren skulle skriva ett menyval.
 
-Om användare skulle skriva bokstäver istället för nummer, så kraschade programmet. 
+Om användare skrev bokstäver istället för ett nummer 
+kraschade programmet.
 
 **Lösning:**
 Jag bytte från `int.Parse()` till `int.TryParse()`. Om användaren skriver något annat än ett nummer visas nu ett felmeddelande och programmet fortsätter istället för att krascha.
@@ -22,7 +23,7 @@ int choice = int.Parse(Console.ReadLine());
 ```csharp
  if (!int.TryParse(Console.ReadLine(), out int choice))
     {
-        Console.WriteLine("Felaktig inmatning. Skriv ett nummer.");
+        Console.WriteLine("Felaktig inmatning. Skriv in ett nummer.");
         continue;
     }
 ```
@@ -80,7 +81,6 @@ Jag bytte från `int.Parse()` till `int.TryParse()`. Nu visas ett felmeddelande 
 
 ```csharp
 int price = int.Parse(Console.ReadLine());
-}
 ```
 
 **Efter:**
@@ -132,7 +132,7 @@ public void RemoveAt(int number)
 
 Jag döpte om `items.txt` till `items-old.txt` och körde programmet igen.
 
-Då fick jag upp ett nytt fel i `Shopplist.cs rad 90`.
+Då fick jag upp ett nytt fel i `ShoppingList.cs rad 90`.
 
 
 **Lösning:**
