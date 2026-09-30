@@ -109,7 +109,7 @@ class ShoppingList
             }
             
             string[] parts = line.Split(';');
-            items.Add(new Item(parts[1], int.Parse(parts[0])));
+            items.Add(new Item(parts[1].Trim(), int.Parse(parts[0])));
         }
     }
 }
