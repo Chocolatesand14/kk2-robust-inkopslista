@@ -15,7 +15,7 @@ while (true)
 
     if (!int.TryParse(Console.ReadLine(), out int choice))
     {
-        Console.WriteLine("Felaktig inmatning. Skriv ett nummer.");
+        Console.WriteLine("Felaktig inmatning. Skriv in ett nummer.");
         continue;
     }
 
@@ -24,7 +24,12 @@ while (true)
         Console.Write("Namn: ");
         string name = Console.ReadLine();
         Console.Write("Pris: ");
-        int price = int.Parse(Console.ReadLine());
+        if (!int.TryParse(Console.ReadLine(), out int price))
+        {
+            Console.WriteLine("Felaktig inmatning. Skriv in ett nummer.");
+            continue;
+        }
+
         list.Add(new Item(name, price));
     }
     else if (choice == 2)
