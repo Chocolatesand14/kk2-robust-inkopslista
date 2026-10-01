@@ -1,7 +1,7 @@
 # Robust Inköpslista - Felhantering och felsökning
 
 I programmet fanns det 6 fel som kunde göra att programmet kraschade, gav fel resultat eller dolde att något hade gått fel. Jag testade programmet och det kraschade direkt. 
-Jag gick därför igenom koden för att hitta och rätta felen. Under felsökningen hittade jag även ytterligare fel.
+Jag gick därför igenom koden för att hitta och rätta felen. Under felsökningen hittade jag även ytterligare fel, vilket gjorde att jag totalt dokumenterade 8 fel.
 
 ## Fel 1 - Felaktig inmatning av menyval
 
@@ -164,7 +164,7 @@ catch (FileNotFoundException)
 
 ## Fel 6 - Felaktig totalsumma
 
-Jag lade till flera varor och upptäckte att programmet inte räknade med alla varor. Den första varan i listan räknades inte med.
+Jag lade till flera varor och upptäckte att programmet inte räknade med alla varor. Felet fanns i `ShoppingList.cs`, där totalsumman räknades ut.
 
 
 **Lösning:**
@@ -185,7 +185,7 @@ for (int i = 0; i < items.Count; i++)
 
 ## Fel 7 - Felaktig inmatning vid borttagning
 
-Jag hittade även ett fel när jag skulle ta bort en vara från listan.
+Jag hittade även ett fel i `Program.cs` när jag skulle ta bort en vara från listan.
 
 Om jag skrev en bokstav istället för ett nummer kraschade programmet eftersom `int.Parse()` användes.
 
