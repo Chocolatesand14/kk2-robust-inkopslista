@@ -5,7 +5,7 @@ Jag gick därför igenom koden för att hitta och rätta felen. Under felsöknin
 
 ## Fel 1 - Felaktig inmatning av menyval
 
-Första felet som jag hittade var `int.Parse()` när användaren skulle skriva ett menyval.
+Första felet som jag hittade fanns i `Program.cs`, där `int.Parse()` användes när användaren skulle skriva ett menyval.
 
 Om användaren skrev bokstäver istället för ett nummer 
 kraschade programmet.
