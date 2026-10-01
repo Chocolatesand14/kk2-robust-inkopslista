@@ -1,13 +1,13 @@
 # Robust Inköpslista - Felhantering och felsökning
 
 I programmet fanns det 6 fel som kunde göra att programmet kraschade, gav fel resultat eller dolde att något hade gått fel. Jag testade programmet och det kraschade direkt. 
-Jag gick därför igenom koden för att hitta och rätta felen. Under felsökningen hittade jag även ett ytterligare fel.
+Jag gick därför igenom koden för att hitta och rätta felen. Under felsökningen hittade jag även ytterligare fel.
 
 ## Fel 1 - Felaktig inmatning av menyval
 
 Första felet som jag hittade var `int.Parse()` när användaren skulle skriva ett menyval.
 
-Om användare skrev bokstäver istället för ett nummer 
+Om användaren skrev bokstäver istället för ett nummer 
 kraschade programmet.
 
 **Lösning:**
@@ -187,7 +187,7 @@ for (int i = 0; i < items.Count; i++)
 
 Jag hittade även ett fel när jag skulle ta bort en vara från listan.
 
-Om jag skrev en bokstav istället för ett nummer på kraschade programmet eftersom `int.Parse()` användes.
+Om jag skrev en bokstav istället för ett nummer kraschade programmet eftersom `int.Parse()` användes.
 
 
 **Lösning:**
@@ -211,4 +211,43 @@ if (!int.TryParse(Console.ReadLine(), out int number))
 }
 
 list.RemoveAt(number);
+```
+
+## Fel 8 - Tom catch vid sparning
+
+Jag hittade ett fel i `ShoppingList.cs` i metoden `Save()`.
+
+Det fanns en tom catch, vilket gjorde att programmet inte visade något felmeddelande om sparningen misslyckades. Programmet skrev även ut att listan var sparad fast sparningen kunde ha misslyckats.
+
+
+**Lösning:**
+Jag ändrade `catch` så att den fångar `IOException` och visar ett felmeddelande om sparningen misslyckas.Jag flyttade också `"Listan är sparad."` till `try`, så att meddelandet bara visas om sparningen lyckas.
+
+
+**Före:**
+
+```csharp
+try
+{
+    File.WriteAllText(path, string.Join("\r\n", lines) + "\r\n");
+}
+catch
+{
+}
+
+Console.WriteLine("Listan är sparad.");
+```
+
+**Efter:**
+
+```csharp
+try
+{
+    File.WriteAllText(path, string.Join("\r\n", lines) + "\r\n");
+    Console.WriteLine("Listan är sparad.");
+}
+catch (IOException)
+{
+    Console.WriteLine("Det gick inte att spara listan.");
+}
 ```
