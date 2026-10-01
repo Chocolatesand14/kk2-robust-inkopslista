@@ -38,7 +38,7 @@ När programmet läste in inköpslistan kunde det krascha med `IndexOutOfRangeEx
 Det berodde på att programmet försökte läsa en tom rad och sedan komma åt `parts[1]`, som inte fanns.
 
 **Lösning:**
-Jag lade till `string.IsNullOrWhiteSpace(line)`, för att kontrollera om raden är tom. Om den skulle vara tom används continue för att hoppa över raden.
+Jag lade till `string.IsNullOrWhiteSpace(line)`, för att kontrollera om raden är tom. Om den skulle vara tom används `continue` för att hoppa över raden.
 
 Nu ska inte programmet krascha om det finns en tom rad i filen.
 
@@ -164,7 +164,7 @@ catch (FileNotFoundException)
 
 ## Fel 6 - Felaktig totalsumma
 
-Jag har lagt till varor, men den räknar inte med alla varor. Just nu räknar den inte med den som är överst i listan.
+Jag lade till flera varor och upptäckte att programmet inte räknade med alla varor. Den första varan i listan räknades inte med.
 
 
 **Lösning:**
@@ -221,7 +221,7 @@ Det fanns en tom catch, vilket gjorde att programmet inte visade något felmedde
 
 
 **Lösning:**
-Jag ändrade `catch` så att den fångar `IOException` och visar ett felmeddelande om sparningen misslyckas.Jag flyttade också `"Listan är sparad."` till `try`, så att meddelandet bara visas om sparningen lyckas.
+Jag ändrade `catch` så att den fångar `IOException` och visar ett felmeddelande om sparningen misslyckas. Jag flyttade också `"Listan är sparad."` till `try`, så att meddelandet bara visas om sparningen lyckas.
 
 
 **Före:**
@@ -250,4 +250,23 @@ catch (IOException)
 {
     Console.WriteLine("Det gick inte att spara listan.");
 }
+```
+
+## Extra förbättring - Trim
+
+I `ShoppingList.cs` lade jag även till `Trim()` när programmet läser in namnet på en vara från `items.txt`.
+
+`Trim()` tar bort eventuella extra mellanslag och radbrytningstecken i början och slutet av texten.
+
+
+**Före:**
+
+```csharp
+items.Add(new Item(parts[1], int.Parse(parts[0])));
+```
+
+**Efter:**
+
+```csharp
+items.Add(new Item(parts[1].Trim(), int.Parse(parts[0])));
 ```
