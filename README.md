@@ -1,10 +1,11 @@
 # Robust Inköpslista - Felhantering och felsökning
 
-I programmet fanns det 6 fel som kunde göra att programmet kraschade, gav fel resultat eller dolde att något hade gått fel. Jag testade programmet och det kraschade direkt. Nu ska jag kolla efter felen och rätta dem.
+I programmet fanns det 6 fel som kunde göra att programmet kraschade, gav fel resultat eller dolde att något hade gått fel. Jag testade programmet och det kraschade direkt. 
+Jag gick därför igenom koden för att hitta och rätta felen. Under felsökningen hittade jag även ett ytterligare fel.
 
 ## Fel 1 - Felaktig inmatning av menyval
 
-Första fel som jag hittade var `int.Parse()` när användaren skulle skriva ett menyval.
+Första felet som jag hittade var `int.Parse()` när användaren skulle skriva ett menyval.
 
 Om användare skrev bokstäver istället för ett nummer 
 kraschade programmet.
@@ -31,10 +32,10 @@ int choice = int.Parse(Console.ReadLine());
 ## Fel 2 - Tom rad i filen
 
 Andra felet hittade jag genom att köra programmet.
-Då dök det upp att det var något med fel `ShoppingList.cs rad 90`.
+Felmeddelandet visade att felet fanns i `ShoppingList.cs rad 90`.
 
 När programmet läste in inköpslistan kunde det krascha med `IndexOutOfRangeException`.
-Vilket berodde på att programmet försökte läsa en tom rad, sedan försökte den komma åt `[1]`, som inte fanns.
+Det berodde på att programmet försökte läsa en tom rad och sedan komma åt `parts[1]`, som inte fanns.
 
 **Lösning:**
 Jag lade till `string.IsNullOrWhiteSpace(line)`, för att kontrollera om raden är tom. Om den skulle vara tom används continue för att hoppa över raden.
@@ -136,7 +137,7 @@ Då fick jag upp ett nytt fel i `ShoppingList.cs rad 90`.
 
 
 **Lösning:**
-Jag fick tänka till lite mer här. Vad jag kan använda för att få det att fungera fast en fil var borta. Kommer sedan på att vi hade gått igenom `try-catch` som ska hjälpa till att fånga ett exception i det här fallet blir det `FileNotFoundException`. Om filen inte finns nu visas ett felmeddelande och programmet fortsätter med en tom lista utan att krascha.
+Jag fick tänka till lite mer här eftersom programmet behövde kunna hantera att filen saknades. Jag kom på att vi hade gått igenom `try-catch`, som används för att fånga exceptions. I det här fallet använde jag `FileNotFoundException`. Om filen inte finns visas nu ett felmeddelande och programmet fortsätter med en tom lista utan att krascha.
 
 
 **Före:**
@@ -180,4 +181,34 @@ for (int i = 1; i < items.Count; i++)
 
 ```csharp
 for (int i = 0; i < items.Count; i++)
+```
+
+## Fel 7 - Felaktig inmatning vid borttagning
+
+Jag hittade även ett fel när jag skulle ta bort en vara från listan.
+
+Om jag skrev en bokstav istället för ett nummer på kraschade programmet eftersom `int.Parse()` användes.
+
+
+**Lösning:**
+Jag bytte från `int.Parse()` till `int.TryParse()`. Om användaren skriver något annat än ett nummer visas ett felmeddelande och programmet fortsätter istället för att krascha.
+
+
+**Före:**
+
+```csharp
+int number = int.Parse(Console.ReadLine());
+list.RemoveAt(number);
+```
+
+**Efter:**
+
+```csharp
+if (!int.TryParse(Console.ReadLine(), out int number))
+{
+    Console.WriteLine("Felaktig inmatning. Skriv in ett nummer.");
+    continue;
+}
+
+list.RemoveAt(number);
 ```
