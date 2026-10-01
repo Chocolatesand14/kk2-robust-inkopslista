@@ -5,7 +5,7 @@ Jag gick därför igenom koden för att hitta och rätta felen. Under felsöknin
 
 ## Fel 1 - Felaktig inmatning av menyval
 
-Första felet som jag hittade fanns i `Program.cs`, där `int.Parse()` användes när användaren skulle skriva ett menyval.
+Det första felet som jag hittade fanns i `Program.cs`, där `int.Parse()` användes när användaren skulle skriva ett menyval.
 
 Om användaren skrev bokstäver istället för ett nummer 
 kraschade programmet.
@@ -31,7 +31,7 @@ int choice = int.Parse(Console.ReadLine());
     
 ## Fel 2 - Tom rad i filen
 
-Andra felet hittade jag genom att köra programmet.
+Det andra felet hittade jag genom att köra programmet.
 Felmeddelandet visade att felet fanns i `ShoppingList.cs rad 90`.
 
 När programmet läste in inköpslistan kunde det krascha med `IndexOutOfRangeException`.
@@ -69,7 +69,7 @@ foreach (string line in lines)
 
 ## Fel 3 - Felaktig inmatning av pris
 
-Tredje felet dök upp när jag skrev in en bokstav istället för nummer när programmet frågade om ett pris.
+Det tredje felet dök upp när jag skrev in en bokstav istället för ett nummer när programmet frågade om ett pris.
 
 Felet fanns i `Program.cs rad 27`.
 
@@ -102,7 +102,7 @@ Felet fanns i `ShoppingList.cs rad 20`.
 
 
 **Lösning:**
-Jag lade till en kontroll så att programmet inte försöker ta bort en vara som inte finns. Istället visas ett felmeddelande.
+Jag lade till en kontroll så att programmet inte försöker ta bort en vara som inte finns. I stället visas ett felmeddelande.
 
 
 **Före:**
@@ -165,6 +165,8 @@ catch (FileNotFoundException)
 ## Fel 6 - Felaktig totalsumma
 
 Jag lade till flera varor och upptäckte att programmet inte räknade med alla varor. Felet fanns i `ShoppingList.cs`, där totalsumman räknades ut.
+
+Den första varan i listan räknades inte med.
 
 
 **Lösning:**
