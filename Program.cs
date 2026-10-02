@@ -1,4 +1,4 @@
-ShoppingList list = new ShoppingList("items.txt");
+ShoppingList list = new ShoppingList("items.txt", 800); //Skapar en ny shoppinglista med en budget på 800 kr
 list.Load();
 
 while (true)
@@ -29,9 +29,25 @@ while (true)
             Console.WriteLine("Felaktig inmatning. Skriv in ett nummer.");
             continue;
         }
-
-        list.Add(new Item(name, price));
+        try
+        {
+            Item item = new Item(name, price);
+            
+            bool added = list.Add(item);
+        if (!added)
+        {
+            Console.WriteLine("Det gick inte att lägga till varan. Budgeten överskrids.");
+        }
     }
+    catch (ArgumentOutOfRangeException ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+    catch (ArgumentException ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+}
     else if (choice == 2)
     {
         Console.Write("Nummer: ");
@@ -64,6 +80,5 @@ while (true)
     }
     else if (choice == 5)
     {
-        break;
+        break;}
     }
-}

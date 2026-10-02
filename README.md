@@ -272,3 +272,11 @@ items.Add(new Item(parts[1], int.Parse(parts[0])));
 ```csharp
 items.Add(new Item(parts[1].Trim(), int.Parse(parts[0])));
 ```
+
+## Designval - budgettak
+
+Det valet jag gjorde med `Add()` var att låta `Add()` returnera `false` när budgettaket sprängdes. Då läggs inte heller varan till i listan. 
+
+Anledningen till varför jag valde `false` istället för att kasta ett undantag var för ett överskridet budgettak kan oftast hända eller förväntas när användare handlar. 
+
+`Program.cs` kontrollerar sedan svaret från `Add()` och visar ett tydligt meddelande till användaren, och programmet fortsätter att köras.
