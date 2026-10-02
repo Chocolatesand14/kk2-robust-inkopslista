@@ -2,16 +2,28 @@
 class ShoppingList
 {
     private List<Item> items = new List<Item>();
-    private string path;
-
-    public ShoppingList(string path)
+    private string path; 
+    private decimal budget; // Nytt fält för budget
+    
+    public ShoppingList(string path, decimal budget)
     {
         this.path = path;
+        this.budget = budget; // Sätter budget när listan skapas
     }
 
-    public void Add(Item item)
+    public bool Add(Item item)
     {
+        if (Total() + item.Price > budget)
+        {
+            return false; // Skulle returnera false om budgeten överskrids
+        }
         items.Add(item);
+        return true; // Varan läggs till om budgeten inte överskrids
+    }
+  
+    public List<Item> GetItems()
+    {
+        return items;
     }
 
     // Removes the item the user sees as number 1, 2, 3 ...
@@ -27,9 +39,9 @@ class ShoppingList
     }
 
     // Adds up the price of every item on the list.
-    public int Total()
+    public decimal Total()
     {
-        int sum = 0;
+        decimal sum = 0;
 
         for (int i = 0; i < items.Count; i++)
         {
