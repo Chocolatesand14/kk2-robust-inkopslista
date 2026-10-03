@@ -1,4 +1,6 @@
 // Holds the items and takes care of loading and saving them.
+using System.Data.Common;
+
 class ShoppingList
 {
     private List<Item> items = new List<Item>();
@@ -79,6 +81,9 @@ class ShoppingList
     public void Save()
     {
         List<string> lines = new List<string>();
+        
+        // Extra: Budgeten syns på första raden
+        lines.Add($"Budget;{budget}");
 
         foreach (Item item in items)
         {
@@ -122,6 +127,16 @@ class ShoppingList
             }
             
             string[] parts = line.Split(';');
+
+            if (parts[0].Trim() == "Budget")
+            {
+                if (decimal.TryParse(parts[1], out decimal b))
+            {
+                budget = b; // Sätter budget från fil
+            }     
+            continue; // Går vidare till nästa rad (inte en vara)  
+            }     
+
             items.Add(new Item(parts[1].Trim(), int.Parse(parts[0])));
         }
     }
