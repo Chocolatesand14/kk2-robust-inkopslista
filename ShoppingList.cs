@@ -80,10 +80,12 @@ class ShoppingList
     // Writes one item per line, as "price;name".
     public void Save()
     {
-        List<string> lines = new List<string>();
-        
+        try 
+         {
+           using (Stream writer = new StreamWriter(path))
+
         // Extra: Budgeten syns på första raden
-        lines.Add($"Budget;{budget}");
+        writer.WriteLine($"Budget;{budget}");
 
         foreach (Item item in items)
         {
