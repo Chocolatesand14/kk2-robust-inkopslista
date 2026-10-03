@@ -82,19 +82,19 @@ class ShoppingList
     {
         try 
          {
-           using (Stream writer = new StreamWriter(path))
-
-        // Extra: Budgeten syns på första raden
-        writer.WriteLine($"Budget;{budget}");
-
+        // Extra: Använder using
+           using (StreamWriter writer = new StreamWriter(path))
+            {
+              
+              // Extra: Budgeten syns på första raden
+              writer.WriteLine($"Budget;{budget}");
+        
         foreach (Item item in items)
         {
-            lines.Add($"{item.Price};{item.Name}");
+            writer.WriteLine($"{item.Price};{item.Name}");
         }
-
-        try
-        {
-            File.WriteAllText(path, string.Join("\r\n", lines) + "\r\n");
+    }
+        
             Console.WriteLine("Listan är sparad.");
         }
         catch (IOException)
