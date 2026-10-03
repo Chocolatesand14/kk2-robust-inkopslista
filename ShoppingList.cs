@@ -4,9 +4,9 @@ using System.Data.Common;
 class ShoppingList
 {
     private List<Item> items = new List<Item>();
-    private string path; 
+    private string path;
     private decimal budget; // Nytt fält för budget
-    
+
     public ShoppingList(string path, decimal budget)
     {
         this.path = path;
@@ -22,7 +22,7 @@ class ShoppingList
         items.Add(item);
         return true; // Varan läggs till om budgeten inte överskrids
     }
-  
+
     public List<Item> GetItems()
     {
         return items;
@@ -37,7 +37,7 @@ class ShoppingList
             return;
         }
         items.RemoveAt(number - 1);
-        
+
     }
 
     // Adds up the price of every item on the list.
@@ -80,21 +80,21 @@ class ShoppingList
     // Writes one item per line, as "price;name".
     public void Save()
     {
-        try 
-         {
-        // Extra: Använder using
-           using (StreamWriter writer = new StreamWriter(path))
-            {
-              
-              // Extra: Budgeten syns på första raden
-              writer.WriteLine($"Budget;{budget}");
-        
-        foreach (Item item in items)
+        try
         {
-            writer.WriteLine($"{item.Price};{item.Name}");
-        }
-    }
-        
+            // Extra: Using gör att filen stängs automatiskt när programmet har skrivit klart.
+            using (StreamWriter writer = new StreamWriter(path))
+            {
+
+                // Extra: Budgettaket på första raden i filen
+                writer.WriteLine($"Budget;{budget}");
+
+                foreach (Item item in items)
+                {
+                    writer.WriteLine($"{item.Price};{item.Name}");
+                }
+            }
+
             Console.WriteLine("Listan är sparad.");
         }
         catch (IOException)
@@ -111,7 +111,7 @@ class ShoppingList
 
         try
         {
-         text = File.ReadAllText(path);
+            text = File.ReadAllText(path);
         }
         catch (FileNotFoundException)
         {
@@ -127,17 +127,17 @@ class ShoppingList
             {
                 continue;
             }
-            
+
             string[] parts = line.Split(';');
 
             if (parts[0].Trim() == "Budget")
             {
                 if (decimal.TryParse(parts[1], out decimal b))
-            {
-                budget = b; // Sätter budget från fil
-            }     
-            continue; // Går vidare till nästa rad (inte en vara)  
-            }     
+                {
+                    budget = b; // Sätter budget från fil
+                }
+                continue; // Går vidare till nästa rad (inte en vara)  
+            }
 
             items.Add(new Item(parts[1].Trim(), int.Parse(parts[0])));
         }
