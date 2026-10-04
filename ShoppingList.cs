@@ -86,7 +86,7 @@ class ShoppingList
             using (StreamWriter writer = new StreamWriter(path))
             {
 
-                // Extra: Budgettaket på första raden i filen
+                // Extra: Sparar budgettaket på första raden i filen.
                 writer.WriteLine($"Budget;{budget}");
 
                 foreach (Item item in items)
@@ -111,16 +111,10 @@ class ShoppingList
 
         try
         {
-            text = File.ReadAllText(path);
-        }
-        catch (FileNotFoundException)
-        {
-            Console.WriteLine("Filen hittades inte. En tom lista används.");
-            return;
-        }
+        text = File.ReadAllText(path);
 
         string[] lines = text.Split('\n');
-
+        
         foreach (string line in lines)
         {
             if (string.IsNullOrWhiteSpace(line))
@@ -138,6 +132,16 @@ class ShoppingList
                 }
                 continue; // Går vidare till nästa rad (inte en vara)  
             }
+        }
+    }
+    catch (FileNotFoundException)
+    {
+        Console.WriteLine("Filen hittades inte. En tom lista används.");
+    }
+    catch (FormatException)
+    {
+        Console.WriteLine("Fel format. Kontrollera att priset är skriver med siffror.");
+
 
             items.Add(new Item(parts[1].Trim(), int.Parse(parts[0])));
         }
