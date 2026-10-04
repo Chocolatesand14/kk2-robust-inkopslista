@@ -132,6 +132,7 @@ class ShoppingList
                 }
                 continue; // Går vidare till nästa rad (inte en vara)  
             }
+            items.Add(new Item(parts[1].Trim(), int.Parse(parts[0])));
         }
     }
     catch (FileNotFoundException)
@@ -140,10 +141,8 @@ class ShoppingList
     }
     catch (FormatException)
     {
-        Console.WriteLine("Fel format. Kontrollera att priset är skriver med siffror.");
+        Console.WriteLine("Fel format. Kontrollera att priset är skrivet med siffror.");
 
-
-            items.Add(new Item(parts[1].Trim(), int.Parse(parts[0])));
         }
     }
 }
