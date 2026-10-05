@@ -15,9 +15,10 @@ class ShoppingList
 
     public bool Add(Item item)
     {
+        // Kontrollera om budgettaket överskrids
         if (Total() + item.Price > budget)
-        {
-            return false; // Skulle returnera false om budgeten överskrids
+        {   // Extra: Visar ett fel om budgeten överskrids
+            throw new BudgetExceededException(Du har överskridit budgeten);
         }
         items.Add(item);
         return true; // Varan läggs till om budgeten inte överskrids

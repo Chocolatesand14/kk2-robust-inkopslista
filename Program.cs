@@ -47,6 +47,10 @@ while (true)
     {
         Console.WriteLine(ex.Message);
     }
+    catch (BudgetExceededException ex)
+    {
+       Console.WriteLine(ex.Message); // Fångar felet om budgeten överskrids    
+    }
 }
     else if (choice == 2)
     {
