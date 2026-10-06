@@ -280,3 +280,8 @@ Det valet jag gjorde med `Add()` var att kasta ett `BudgetExceededException` nä
 Jag valde att använda ett eget undantag för att kunna fånga upp felet när budgeten överskrids och visa ett meddelande till användaren.
 
 `Program.cs` fångar sedan upp felet med `catch` och visar att budgeten överskridits. Programmet fortsätter sedan att köras.
+
+## Klassdiagram
+Ett enkelt klassdiagram över programmets struktur efter mina ändringar.
+
+![Klassdiagram](images/klassdiagram.drawio.png)
