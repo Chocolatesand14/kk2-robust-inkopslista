@@ -37,7 +37,6 @@ class ShoppingList
             return;
         }
         items.RemoveAt(number - 1);
-
     }
 
     // Adds up the price of every item on the list.
@@ -77,6 +76,7 @@ class ShoppingList
         Console.WriteLine($"Totalt: {Total()} kr");
     }
 
+
     // Writes one item per line, as "price;name".
     public void Save()
     {
@@ -85,7 +85,6 @@ class ShoppingList
             // Extra: Using gör att filen stängs automatiskt när programmet har skrivit klart.
             using (StreamWriter writer = new StreamWriter(path))
             {
-
                 // Extra: Sparar budgettaket på första raden i filen.
                 writer.WriteLine($"Budget;{budget}");
 
@@ -94,55 +93,68 @@ class ShoppingList
                     writer.WriteLine($"{item.Price};{item.Name}");
                 }
             }
-
             Console.WriteLine("Listan är sparad.");
         }
         catch (IOException)
         {
             Console.WriteLine("Det gick inte att spara listan.");
         }
-
     }
 
     // Reads the file back into the list.
     public void Load()
     {
         string text;
-
         try
         {
-        text = File.ReadAllText(path);
+            text = File.ReadAllText(path);
 
-        string[] lines = text.Split('\n');
-        
-        foreach (string line in lines)
-        {
-            if (string.IsNullOrWhiteSpace(line))
+            string[] lines = text.Split('\n');
+
+            foreach (string line in lines)
             {
-                continue;
-            }
-
-            string[] parts = line.Split(';');
-
-            if (parts[0].Trim() == "Budget")
-            {
-                if (decimal.TryParse(parts[1], out decimal b))
+                if (string.IsNullOrWhiteSpace(line))
                 {
-                    budget = b; // Sätter budget från fil
+                    continue;
                 }
-                continue; // Går vidare till nästa rad (inte en vara)  
-            }
-            items.Add(new Item(parts[1].Trim(), int.Parse(parts[0])));
-        }
-    }
-    catch (FileNotFoundException)
-    {
-        Console.WriteLine("Filen hittades inte. En tom lista används.");
-    }
-    catch (FormatException)
-    {
-        Console.WriteLine("Fel format. Kontrollera att priset är skrivet med siffror.");
 
+                string[] parts = line.Split(';');
+                if (parts.Length != 2)
+                {
+                    Console.WriteLine("Felaktig rad i filen.");
+                    continue;
+                }
+
+                if (parts[0].Trim() == "Budget")
+                {
+                    if (decimal.TryParse(parts[1], out decimal b) && b >= 0)
+                    {
+                        budget = b; // Sätter budget från fil
+                    }
+                    continue; // Går vidare till nästa rad (inte en vara)  
+                }
+                if (!int.TryParse(parts[0], out int price) || price < 0)
+                {
+                    Console.WriteLine("Felaktigt pris i filen.");
+                    continue;
+                }
+                if (string.IsNullOrWhiteSpace(parts[1]))
+                {
+                    Console.WriteLine("Varans namn får inte vara tomt.");
+                    continue;
+                }
+
+                items.Add(new Item(parts[1].Trim(), price));
+            }
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("Filen hittades inte. En tom lista används.");
+        }
+        catch (IOException)
+        {
+            Console.WriteLine("Det gick inte att läsa filen.");
         }
     }
 }
+

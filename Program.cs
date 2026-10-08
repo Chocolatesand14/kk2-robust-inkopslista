@@ -1,4 +1,4 @@
-ShoppingList list = new ShoppingList("items.txt", 800); //Skapar en ny shoppinglista med en budget på 800 kr
+ShoppingList list = new ShoppingList("items.txt", 800); // Skapar en ny shoppinglista med en budget på 800 kr
 list.Load();
 
 while (true)
@@ -22,7 +22,8 @@ while (true)
     if (choice == 1)
     {
         Console.Write("Namn: ");
-        string name = Console.ReadLine();
+        string name = Console.ReadLine() ?? "";
+
         Console.Write("Pris: ");
         if (!int.TryParse(Console.ReadLine(), out int price))
         {
@@ -33,22 +34,21 @@ while (true)
         {
             Item item = new Item(name, price);
             list.Add(item);
-        
+
             Console.WriteLine("Varan har lagts till.");
         }
-    
-    catch (ArgumentOutOfRangeException ex)
-    {
-        Console.WriteLine(ex.Message);
-    }
-    catch (ArgumentException ex)
-    {
-        Console.WriteLine(ex.Message);
-    }
-    catch (BudgetExceededException ex)
-    {
-       Console.WriteLine(ex.Message); // Fångar felet om budgeten överskrids    
-    }
+        catch (ArgumentOutOfRangeException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        catch (BudgetExceededException ex)
+        {
+            Console.WriteLine(ex.Message); // Fångar felet om budgeten överskrids    
+        }
     }
     else if (choice == 2)
     {
@@ -59,7 +59,6 @@ while (true)
             continue;
         }
         list.RemoveAt(number);
-        
     }
     else if (choice == 3)
     {
@@ -68,7 +67,7 @@ while (true)
     else if (choice == 4)
     {
         Console.Write("Namn att söka efter: ");
-        string wanted = Console.ReadLine();
+        string wanted = Console.ReadLine() ?? "";
         Item found = list.Find(wanted);
 
         if (found == null)
@@ -82,5 +81,10 @@ while (true)
     }
     else if (choice == 5)
     {
-        break;}
+        break;
     }
+    else
+    {
+        Console.WriteLine("Ogiltigt menyval. Välj 1–5.");
+    }
+}
