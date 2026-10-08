@@ -13,15 +13,14 @@ class ShoppingList
         this.budget = budget; // Sätter budget när listan skapas
     }
 
-    public bool Add(Item item)
+    public void Add(Item item)
     {
         // Kontrollera om budgettaket överskrids
         if (Total() + item.Price > budget)
         {   // Extra: Visar ett fel om budgeten överskrids
             throw new BudgetExceededException("Du har överskridit budgeten.");
         }
-        items.Add(item);
-        return true; // Varan läggs till om budgeten inte överskrids
+        items.Add(item); // Varan läggs till om budgeten inte överskrids
     }
 
     public List<Item> GetItems()

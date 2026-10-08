@@ -32,13 +32,11 @@ while (true)
         try
         {
             Item item = new Item(name, price);
-            
-            bool added = list.Add(item);
-        if (!added)
-        {
-            Console.WriteLine("Det gick inte att lägga till varan. Budgeten överskrids.");
+            list.Add(item);
+        
+            Console.WriteLine("Varan har lagts till.");
         }
-    }
+    
     catch (ArgumentOutOfRangeException ex)
     {
         Console.WriteLine(ex.Message);
@@ -51,7 +49,7 @@ while (true)
     {
        Console.WriteLine(ex.Message); // Fångar felet om budgeten överskrids    
     }
-}
+    }
     else if (choice == 2)
     {
         Console.Write("Nummer: ");
