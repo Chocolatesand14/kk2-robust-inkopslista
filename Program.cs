@@ -24,6 +24,12 @@ while (true)
         Console.Write("Namn: ");
         string name = Console.ReadLine() ?? "";
 
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            Console.WriteLine("Namnet får inte vara tomt.");
+            continue;
+        }
+
         Console.Write("Pris: ");
         if (!int.TryParse(Console.ReadLine(), out int price))
         {
