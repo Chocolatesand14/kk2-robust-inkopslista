@@ -22,11 +22,11 @@ int choice = int.Parse(Console.ReadLine());
 **Efter:**
 
 ```csharp
- if (!int.TryParse(Console.ReadLine(), out int choice))
-    {
-        Console.WriteLine("Felaktig inmatning. Skriv in ett nummer.");
-        continue;
-    }
+if (!int.TryParse(Console.ReadLine(), out int choice))
+{
+    Console.WriteLine("Felaktig inmatning. Skriv in ett nummer.");
+    continue;
+}
 ```
     
 ## Fel 2 - Tom rad i filen
@@ -45,25 +45,24 @@ Nu ska inte programmet krascha om det finns en tom rad i filen.
 **Före:**
 
 ```csharp
-foreach (string line in lines)
-{
-    string[] parts = line.Split(';');
-    items.Add(new Item(parts[1], int.Parse(parts[0])));
-}
+string[] parts = line.Split(';');
+items.Add(new Item(parts[1], int.Parse(parts[0])));
 ```
 
 **Efter:**
 
 ```csharp
-foreach (string line in lines)
+if (string.IsNullOrWhiteSpace(line))
 {
-    if (string.IsNullOrWhiteSpace(line))
-    {
-        continue;
-    }
+    continue;
+}
 
-    string[] parts = line.Split(';');
-    items.Add(new Item(parts[1], int.Parse(parts[0])));
+string[] parts = line.Split(';');
+
+if (parts.Length != 2)
+{
+    Console.WriteLine("Felaktig rad i filen.");
+    continue;
 }
 ```
 
@@ -89,7 +88,7 @@ int price = int.Parse(Console.ReadLine());
 ```csharp
 if (!int.TryParse(Console.ReadLine(), out int price))
 {
-    Console.WriteLine("Felaktig inmatning. Skriv ett nummer.");
+    Console.WriteLine("Felaktig inmatning. Skriv in ett nummer.");
     continue;
 }
 ```
@@ -108,25 +107,19 @@ Jag lade till en kontroll så att programmet inte försöker ta bort en vara som
 **Före:**
 
 ```csharp
-public void RemoveAt(int number)
-{
-    items.RemoveAt(number - 1);
-}
+items.RemoveAt(number - 1);
 ```
 
 **Efter:**
 
 ```csharp
-public void RemoveAt(int number)
+if (number < 1 || number > items.Count)
 {
-    if (number < 1 || number > items.Count)
-    {
-        Console.WriteLine("Det finns ingen vara med det numret.");
-        return;
-    }
-
-    items.RemoveAt(number - 1);
+    Console.WriteLine("Det finns ingen vara med det numret.");
+    return;
 }
+
+items.RemoveAt(number - 1);
 ```
 
 ## Fel 5 - items.txt saknas
@@ -149,8 +142,6 @@ string text = File.ReadAllText(path);
 **Efter:**
 
 ```csharp
-string text;
-
 try
 {
     text = File.ReadAllText(path);
@@ -158,7 +149,6 @@ try
 catch (FileNotFoundException)
 {
     Console.WriteLine("Filen hittades inte. En tom lista används.");
-    return;
 }
 ```
 
@@ -200,7 +190,6 @@ Jag bytte från `int.Parse()` till `int.TryParse()`. Om användaren skriver någ
 
 ```csharp
 int number = int.Parse(Console.ReadLine());
-list.RemoveAt(number);
 ```
 
 **Efter:**
@@ -211,8 +200,6 @@ if (!int.TryParse(Console.ReadLine(), out int number))
     Console.WriteLine("Felaktig inmatning. Skriv in ett nummer.");
     continue;
 }
-
-list.RemoveAt(number);
 ```
 
 ## Fel 8 - Tom catch vid sparning
@@ -229,10 +216,6 @@ Jag ändrade `catch` så att den fångar `IOException` och visar ett felmeddelan
 **Före:**
 
 ```csharp
-try
-{
-    File.WriteAllText(path, string.Join("\r\n", lines) + "\r\n");
-}
 catch
 {
 }
@@ -243,11 +226,9 @@ Console.WriteLine("Listan är sparad.");
 **Efter:**
 
 ```csharp
-try
-{
-    File.WriteAllText(path, string.Join("\r\n", lines) + "\r\n");
-    Console.WriteLine("Listan är sparad.");
-}
+// Inuti try, efter att filen har skrivits:
+Console.WriteLine("Listan är sparad.");
+
 catch (IOException)
 {
     Console.WriteLine("Det gick inte att spara listan.");
@@ -259,7 +240,6 @@ catch (IOException)
 I `ShoppingList.cs` lade jag även till `Trim()` när programmet läser in namnet på en vara från `items.txt`.
 
 `Trim()` tar bort eventuella extra mellanslag och radbrytningstecken i början och slutet av texten.
-
 
 **Före:**
 
@@ -282,6 +262,6 @@ Jag valde att använda ett eget undantag för att kunna fånga upp felet när bu
 `Program.cs` fångar sedan upp felet med `catch` och visar att budgeten överskridits. Programmet fortsätter sedan att köras.
 
 ## Klassdiagram
-Ett enkelt klassdiagram över programmets struktur efter mina ändringar.
+Ett klassdiagram över min robusta inköpslista efter mina ändringar. Diagrammet visar klasserna Program, ShoppingList, Item och BudgetExceededException, deras egenskaper och metoder samt hur de hänger ihop.
 
-![Klassdiagram](images/klassdiagram.drawio.png)
+![Klassdiagram](/images/UML-klassdiagram%20för%20inköpslista.png)
